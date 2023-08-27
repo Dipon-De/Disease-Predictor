@@ -3,9 +3,15 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 
+# diabetes_model = pickle.load(
+#     open(
+#         'D:/Programming/disease_detector/Disease_predictor_webapp/saved files/diabetes_model.sav',
+#         'rb'
+#     )
+# )
 diabetes_model = pickle.load(
     open(
-        'D:/Programming/disease_detector/Disease_predictor_webapp/saved files/diabetes_model.sav',
+        'saved files/diabetes_model.sav',
         'rb'
     )
 )
