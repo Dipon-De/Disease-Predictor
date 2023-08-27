@@ -5,8 +5,8 @@ from streamlit_option_menu import option_menu
 
 diabetes_model = pickle.load(
     open(
-        "D:/Programming/disease_detector/Disease_predictor_webapp/saved files/diabetes_pre.sav",
-        "rb",
+        'D:/Programming/disease_detector/Disease_predictor_webapp/saved files/diabetes_model.sav',
+        'rb'
     )
 )
 
@@ -26,7 +26,6 @@ if selected == "Diabetes prediction":
 
     col1, col2, col3 = st.columns(3)
 
-    error_messege=""
     with col1:
         Pregnancies = st.number_input("Number of Pregnancies")
         if(Pregnancies<0):
@@ -68,33 +67,34 @@ if selected == "Diabetes prediction":
             st.warning('please enter positive numerical value ',icon="⚠️")
 
     # at first create vacant result
-    diabetis_result = ""
+    diabetis_result = ''
 
-    try:
-        # create a button for predicton submit
-        if st.button("Diabetes Test Result"):
-            diabetis_prediction = diabetes_model.predict(
-                [
+    if(Pregnancies == 0 and Glucose == 0 and BloodPressure == 0 and SkinThickness == 0 and Insulin ==0 and BMI==0 and DiabetesPedigreeFunction == 0 and Age == 0):
+        diabetis_result = " you did not give any input !!!"
+    else:    
+        try:
+            # create a button for predicton submit
+            if st.button("Diabetes Test Result"):
+                diabetis_prediction = diabetes_model.predict(
                     [
-                        Pregnancies,
-                        Glucose,
-                        BloodPressure,
-                        SkinThickness,
-                        Insulin,
-                        BMI,
-                        DiabetesPedigreeFunction,
-                        Age,
+                        [
+                            Pregnancies,
+                            Glucose,
+                            BloodPressure,
+                            SkinThickness,
+                            Insulin,
+                            BMI,
+                            DiabetesPedigreeFunction,
+                            Age
+                        ]
                     ]
-                ]
-            )
-            if(Pregnancies == 0 and Glucose == 0 and BloodPressure == 0 and SkinThickness == 0 and Insulin ==0 and BMI==0 and DiabetesPedigreeFunction == 0 and Age == 0):
-                diabetis_result = " you did not give any input !!!"
-            elif diabetis_prediction[0] == 1:
-                diabetis_result = "you are diabetic , consult to a doctor "
-            else:
-                diabetis_result = "you are not diabetic , your health is good"
-    except:
-        diabetis_result = " some error occured please try again later !!!!"
+                )
+                if diabetis_prediction[0] == 1:
+                    diabetis_result = "you are diabetic , consult to a doctor "
+                else:
+                    diabetis_result = "you are not diabetic , your health is good"
+        except:
+            diabetis_result = " some error occured please try again later !!!!"
 
     st.success(diabetis_result)
 
